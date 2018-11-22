@@ -16,7 +16,6 @@ $stmt->execute(array($id));
 }
 ?>
 
-
     <div class="container">
         <div class="row">
             <div class="col">
@@ -50,15 +49,14 @@ $stmt->execute(array($id));
                         <p class="price">&euro; <?php echo $prijs;?></p>
                         <form method="post" action="cart.php">
                             <div class="form-group">
-                            </div>
-                            <div class="form-group">
                                 <label>Aantal :</label>
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control" step="1" id="quantity" name="quantity" min="1" max="100" value="1">
+                                    <input type="hidden" name="price" value="<?php echo $prijs?>">
+                                    <input type="hidden" name="productName" value="<?php echo $naam?>">
                                 </div>
+                                <form method="post" action="cart.php" > <button href="cart.php" type="submit" class="btn btn-success btn-lg btn-block text-uppercase">Toevoegen</button></form>
                             </div>
-                        </form>
-                            <button href="cart.php" type="submit" class="btn btn-success btn-lg btn-block text-uppercase">Toevoegen</button>
                         </form>
                         <div class="product_rassurance">
                             <ul class="list-inline">

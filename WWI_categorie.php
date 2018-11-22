@@ -2,8 +2,8 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
     <head>
         <title>Webshop</title>
 
@@ -14,44 +14,47 @@
     </head>
 </head>
 <body>
-    <?php
-    try {
-        $db = "mysql:host=localhost;dbname=wideworldimporters;port=3306";
-        $username = 'root';
-        $password = '';
-        $pdo = new PDO($db, $username, $password);
-    } catch (PDOException $e) {
-        print("Error!: " . $e->getMessage());
-    }
-    $categorie = filter_input(INPUT_GET, 'categorie', FILTER_SANITIZE_STRING);
-    ?>
-    <div style="background-color: whitesmoke; max-width: 200px; float: right;">Categorie: <?php print($categorie); ?></div>
-    <br>
-    <?php
-    $sql = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = (SELECT StockGroupID from stockgroups WHERE StockGroupName = ?))";
-    $producten = $pdo->prepare($sql);
-    $producten->execute([$categorie]);
-    if ($producten->rowCount() > 0) {
+<?php
+
+try {
+    $db = "mysql:host=localhost;dbname=wideworldimporters;port=3306";
+    $username = 'root';
+    $password = '';
+    $pdo = new PDO($db, $username, $password);
+
+} catch (PDOException $e) {
+    print("Error!: " . $e->getMessage());
+}
+$categorie = filter_input(INPUT_GET, 'categorie', FILTER_SANITIZE_STRING);
+?>
+<h3>Je gekozen categorie is <?php print($categorie); ?></h3> <br>
+
+<?php
+$sql = "SELECT * FROM stockitems WHERE StockItemID IN (SELECT StockItemID FROM stockitemstockgroups WHERE StockGroupID = (SELECT StockGroupID from stockgroups WHERE StockGroupName = ?))";
+$producten = $pdo->prepare($sql);
+$producten->execute([$categorie]);
+if ($producten->rowCount() > 0) {
 
 
-        while ($rij = $producten->fetch()) {
-            $naam = $rij["StockItemName"];
-            $prijs = $rij["RecommendedRetailPrice"];
-            $id = $rij["StockItemID"];
-            ?>
-            <div class="card" style="width: 25rem; height: 27rem; float: left;margin: 63px; background-color: greenyellow;">
-                <div class="card-body">
-                    <h5 class="card-title" style="height: 4rem;"><?php print($naam . " " . "&euro;" . $prijs); ?></h5>
-                    <img class="img-fluid" src="Afbeeldingen/milkaoreo.jpg" style="width: 20rem; length: 13rem; margin-top: 3rem; margin-bottom: 4rem; margin-left: 1.5rem;">
-                    <form method="get" action="productpagina.php"><button type="submit" value="<?php print($id) ?>" name="Id">Lees meer!</button></form>
-                </div>
-            </div>
-            <?php
-        }
-    } else {
-        print("geen resultaten");
+    while ($rij = $producten->fetch()) {
+        $naam = $rij["StockItemName"];
+        $prijs = $rij["RecommendedRetailPrice"];
+        $id = $rij["StockItemID"];
+        ?>
+        <div class="card" style="width: 18rem; height: 22rem; float: left; margin: 10px;">
+        <div class="card-body">
+            <h6 class="card-title"><?php print($naam . " " . "&euro;" . $prijs); ?></h6>
+                <img class="img-fluid" src="img/rpg.jpg" />
+            <form method="get" action="productpagina.php"><button type="submit" value="<?php print($id)?>" name="Id">Toevoegen aan winkelwagen</button></form>
+        </div>
+        </div>
+        <?php
+
     }
-    ?> <br>
+} else {
+    print("geen resultaten");
+}
+?> <br>
 
 </body>
 
