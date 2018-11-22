@@ -36,7 +36,7 @@ $stmt->execute(array($id));
                 <div class="card bg-light mb-3">
                     <div class="card-body">
                             <img class="img-fluid" src="img/rpg.jpg" />
-                            <h4 class="text-center"></h4>
+                            <h4 class="text-center"><?php echo ($naam);?></h4>
                     </div>
                 </div>
             </div>
@@ -49,6 +49,7 @@ $stmt->execute(array($id));
                         <p class="price">&euro; <?php echo $prijs;?></p>
                         <form method="post" action="cart.php">
                             <div class="form-group">
+
                                 <label>Aantal :</label>
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control" step="1" id="quantity" name="quantity" min="1" max="100" value="1">
